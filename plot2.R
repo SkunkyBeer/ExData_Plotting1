@@ -1,0 +1,15 @@
+x<-read.csv("household_power_consumption.txt", na.strings="?", sep=";", comment.char="")
+rows.keep <- (x[,1] == "1/2/2007")|(x[,1] == "2/2/2007")
+csv<-x[rows.keep,]
+timestamp <- as.POSIXlt(paste(as.Date(csv[,1],"%d/%m/%Y"),csv[,2],sep=" "))
+csv<- cbind(timestamp,csv[,3:ncol(csv)])
+#write.csv(csv,"cropped_data.csv", row.names = FALSE)
+rm(x)
+rm(timestamp)
+rm(rows.keep)
+#rm(csv)
+gc()
+
+png(filename="plot2.png")
+plot(csv[,1],csv[,2],type="l",ylab="Global Active Power",xlab="")
+dev.off()
